@@ -1,8 +1,10 @@
 import time
 import json
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # { userId: { title, artist, position, duration, playing, updated_at } }
 sessions = {}
