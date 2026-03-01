@@ -79,11 +79,16 @@ body {{
   100% {{ transform: translateX(4px) translateY(0px) scaleX(-1); opacity:0; }}
 }}
 
-/* 메인 카드 */
-#container {{
+/* 스케일 래퍼 */
+#wrapper {{
   position: fixed;
   bottom: 24px;
   left: 24px;
+  transform-origin: bottom left;
+}}
+
+/* 메인 카드 */
+#container {{
   width: 400px;
   background: rgba(225, 240, 248, 0.92);
   border-radius: 20px;
@@ -234,6 +239,7 @@ body {{
 <div class="whale" style="top:78%; --dist:460px; animation-duration:22s; animation-delay:13s;  font-size:24px;">&#x1F433;</div>
 <div class="whale" style="top:33%; --dist:380px; animation-duration:30s; animation-delay:4s;   font-size:16px;">&#x1F433;</div>
 
+<div id="wrapper">
 <div id="container">
   <div id="top-row">
     <div id="text-col">
@@ -261,6 +267,7 @@ body {{
     <span class="btn">&#x23ED;</span>
     <span class="btn">&#x22EE;</span>
   </div>
+</div>
 </div>
 
 <script>
@@ -327,6 +334,13 @@ function tick() {{
     totEl.textContent   = fmt(duration);
   }}
 }}
+
+function rescale() {{
+  const scale = Math.min(1, (window.innerWidth - 48) / 400);
+  document.getElementById('wrapper').style.transform = `scale(${{scale}})`;
+}}
+window.addEventListener('resize', rescale);
+rescale();
 
 setInterval(poll, 1000);
 setInterval(tick, 100);
