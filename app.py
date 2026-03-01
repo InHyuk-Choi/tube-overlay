@@ -197,7 +197,44 @@ body {{
   color: #3a6070;
   font-size: 18px;
 }}
-#controls .btn {{ cursor: default; opacity: 0.7; user-select:none; }}
+#controls .btn {{ cursor: default; opacity: 0.7; user-select:none; display:flex; align-items:center; }}
+.skip-prev, .skip-next {{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}}
+.skip-prev .bar, .skip-next .bar {{
+  width: 2.5px;
+  height: 13px;
+  background: #3a6070;
+  border-radius: 1px;
+}}
+.skip-prev .tri {{
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 6px 9px 6px 0;
+  border-color: transparent #3a6070 transparent transparent;
+}}
+.skip-next .tri {{
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 9px;
+  border-color: transparent transparent transparent #3a6070;
+}}
+.shuffle {{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  opacity: 0.7;
+}}
+.shuffle span {{
+  display: block;
+  width: 14px;
+  height: 2px;
+  background: #3a6070;
+  border-radius: 1px;
+}}
+.shuffle span:last-child {{ width: 10px; }}
 #controls .btn-play {{
   width: 38px;
   height: 38px;
@@ -261,11 +298,11 @@ body {{
   </div>
 
   <div id="controls">
-    <span class="btn">&#x21C5;</span>
-    <span class="btn">&#x23EE;</span>
+    <span class="btn"><span class="shuffle"><span></span><span></span></span></span>
+    <span class="btn"><span class="skip-prev"><span class="bar"></span><span class="tri"></span></span></span>
     <span class="btn-play" id="play-btn"><span class="triangle"></span></span>
-    <span class="btn">&#x23ED;</span>
-    <span class="btn">&#x22EE;</span>
+    <span class="btn"><span class="skip-next"><span class="tri"></span><span class="bar"></span></span></span>
+    <span class="btn" style="font-size:20px; line-height:1; color:#3a6070;">&#x22EE;</span>
   </div>
 </div>
 </div>
