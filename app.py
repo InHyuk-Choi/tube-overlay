@@ -144,6 +144,23 @@ body {{
   font-size: 30px;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(30,90,140,0.12);
+  overflow: hidden;
+}}
+#art img {{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}}
+#art img.loaded {{
+  display: block;
+}}
+#art .fallback {{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }}
 
 /* 진행바 */
@@ -283,7 +300,10 @@ body {{
       <div id="title-wrap"><span id="title">-</span></div>
       <div id="artist"></div>
     </div>
-    <div id="art">&#x1F433;</div>
+    <div id="art">
+      <img id="thumb" />
+      <span class="fallback">&#x1F433;</span>
+    </div>
   </div>
 
   <div id="bar-wrap">
@@ -318,6 +338,8 @@ const artistEl  = document.getElementById('artist');
 const barFill   = document.getElementById('bar-fill');
 const barDot    = document.getElementById('bar-dot');
 const playBtn   = document.getElementById('play-btn');
+const thumb     = document.getElementById('thumb');
+const fallback  = document.querySelector('#art .fallback');
 const curEl     = document.getElementById('cur');
 const totEl     = document.getElementById('tot');
 
@@ -353,6 +375,12 @@ async function poll() {{
     srvPos   = d.position || 0;
     srvTime  = Date.now();
     playing  = d.playing;
+    if (d.thumbnail && thumb.src !== d.thumbnail) {{
+      thumb.classList.remove('loaded');
+      thumb.onload = () => {{ thumb.classList.add('loaded'); fallback.style.display='none'; }};
+      thumb.onerror = () => {{ thumb.classList.remove('loaded'); fallback.style.display='flex'; }};
+      thumb.src = d.thumbnail;
+    }}
     playBtn.innerHTML = playing
       ? '<span class="pause"><span></span><span></span></span>'
       : '<span class="triangle"></span>';
