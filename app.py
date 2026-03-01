@@ -204,7 +204,6 @@ body {{
   color: white;
   font-size: 16px;
   box-shadow: 0 3px 10px rgba(58,157,200,0.4);
-  padding-left: 2px;
 }}
 </style>
 </head>
