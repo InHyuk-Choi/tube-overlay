@@ -201,9 +201,28 @@ body {{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 16px;
   box-shadow: 0 3px 10px rgba(58,157,200,0.4);
+  position: relative;
+}}
+#controls .btn-play .triangle {{
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 11px;
+  border-color: transparent transparent transparent white;
+  margin-left: 2px;
+}}
+#controls .btn-play .pause {{
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}}
+#controls .btn-play .pause span {{
+  width: 3px;
+  height: 13px;
+  background: white;
+  border-radius: 1px;
+  display: block;
 }}
 </style>
 </head>
@@ -238,7 +257,7 @@ body {{
   <div id="controls">
     <span class="btn">&#x21C5;</span>
     <span class="btn">&#x23EE;</span>
-    <span class="btn-play" id="play-btn">&#x25B6;</span>
+    <span class="btn-play" id="play-btn"><span class="triangle"></span></span>
     <span class="btn">&#x23ED;</span>
     <span class="btn">&#x22EE;</span>
   </div>
@@ -290,7 +309,9 @@ async function poll() {{
     srvPos   = d.position || 0;
     srvTime  = Date.now();
     playing  = d.playing;
-    playBtn.textContent = playing ? '\u23F8' : '\u25B6';
+    playBtn.innerHTML = playing
+      ? '<span class="pause"><span></span><span></span></span>'
+      : '<span class="triangle"></span>';
     container.classList.toggle('visible', !!d.title);
   }} catch(e) {{}}
 }}
