@@ -59,41 +59,96 @@ def build_overlay(user_id):
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 body {{
   background: transparent;
-  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif;
   overflow: hidden;
 }}
+
+/* 떠다니는 고래들 */
+.whale {{
+  position: fixed;
+  font-size: 28px;
+  opacity: 0;
+  animation: float-whale linear infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(78,201,225,0.4));
+}}
+@keyframes float-whale {{
+  0%   {{ transform: translateX(-60px) translateY(0px) scaleX(1); opacity:0; }}
+  5%   {{ opacity: 0.55; }}
+  48%  {{ transform: translateX(var(--dist)) translateY(-18px) scaleX(1); }}
+  50%  {{ transform: translateX(var(--dist)) translateY(-18px) scaleX(-1); }}
+  95%  {{ opacity: 0.55; }}
+  100% {{ transform: translateX(0px) translateY(0px) scaleX(-1); opacity:0; }}
+}}
+
+/* 메인 카드 */
 #container {{
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 360px;
-  background: rgba(0,0,0,0.72);
-  border-radius: 14px;
-  padding: 13px 16px 11px;
-  border-left: 4px solid #ff3b3b;
-  backdrop-filter: blur(10px);
+  bottom: 24px;
+  left: 24px;
+  width: 380px;
+  background: linear-gradient(135deg, rgba(8,28,58,0.88) 0%, rgba(10,42,80,0.88) 100%);
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  border: 1px solid rgba(78,201,225,0.25);
+  box-shadow: 0 8px 32px rgba(0,20,60,0.5), inset 0 1px 0 rgba(78,201,225,0.15);
+  backdrop-filter: blur(16px);
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  overflow: hidden;
 }}
 #container.visible {{
   opacity: 1;
   transform: translateY(0);
 }}
+
+/* 카드 내부 배경 고래 */
+#bg-whale {{
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 90px;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}}
+
+/* 상단: 앨범아트 + 텍스트 */
 #top-row {{
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 5px;
+  gap: 14px;
+  margin-bottom: 14px;
+  position: relative;
 }}
-#icon {{ font-size: 13px; flex-shrink: 0; }}
-#title-wrap {{ overflow: hidden; flex: 1; }}
+#art {{
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0e4d6e, #1a8fa8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  animation: art-pulse 3s ease-in-out infinite;
+}}
+@keyframes art-pulse {{
+  0%,100% {{ box-shadow: 0 4px 12px rgba(0,0,0,0.35); }}
+  50%      {{ box-shadow: 0 4px 20px rgba(78,201,225,0.3); }}
+}}
+#text-col {{ flex: 1; min-width: 0; }}
+#title-wrap {{ overflow: hidden; margin-bottom: 4px; }}
 #title {{
-  color: #fff;
-  font-size: 13px;
+  color: #ffffff;
+  font-size: 15px;
   font-weight: 700;
   white-space: nowrap;
   display: inline-block;
+  letter-spacing: -0.2px;
 }}
 #title.scroll {{ animation: marquee 10s linear infinite; }}
 @keyframes marquee {{
@@ -101,43 +156,74 @@ body {{
   85%,100%{{ transform: translateX(var(--d)); }}
 }}
 #artist {{
-  color: #aaa;
-  font-size: 11px;
-  margin-bottom: 9px;
+  color: #7ab8cc;
+  font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }}
+
+/* 진행바 */
+#bar-wrap {{
+  position: relative;
+  margin-bottom: 7px;
+}}
 #bar-bg {{
   width: 100%;
-  height: 3px;
-  background: rgba(255,255,255,0.18);
+  height: 4px;
+  background: rgba(255,255,255,0.12);
   border-radius: 2px;
+  overflow: visible;
 }}
 #bar-fill {{
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #ff3b3b, #ff7c7c);
+  background: linear-gradient(90deg, #1a8fa8, #4ec9e1);
   border-radius: 2px;
   transition: width 0.4s linear;
+  position: relative;
+}}
+#bar-fill::after {{
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background: #4ec9e1;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(78,201,225,0.8);
 }}
 #times {{
   display: flex;
   justify-content: space-between;
-  margin-top: 5px;
-  color: #777;
+  color: #4a7a8a;
   font-size: 10px;
+  letter-spacing: 0.3px;
 }}
 </style>
 </head>
 <body>
+
+<!-- 떠다니는 고래 4마리 -->
+<div class="whale" style="top:15%; --dist:420px; animation-duration:18s; animation-delay:0s;">&#x1F433;</div>
+<div class="whale" style="top:55%; --dist:380px; animation-duration:24s; animation-delay:6s; font-size:18px;">&#x1F433;</div>
+<div class="whale" style="top:75%; --dist:460px; animation-duration:20s; animation-delay:11s; font-size:22px;">&#x1F433;</div>
+<div class="whale" style="top:35%; --dist:400px; animation-duration:28s; animation-delay:3s; font-size:16px;">&#x1F433;</div>
+
 <div id="container">
+  <div id="bg-whale">&#x1F433;</div>
   <div id="top-row">
-    <span id="icon">&#127925;</span>
-    <div id="title-wrap"><span id="title">-</span></div>
+    <div id="art">&#x1F3B5;</div>
+    <div id="text-col">
+      <div id="title-wrap"><span id="title">-</span></div>
+      <div id="artist"></div>
+    </div>
   </div>
-  <div id="artist"></div>
-  <div id="bar-bg"><div id="bar-fill"></div></div>
+  <div id="bar-wrap">
+    <div id="bar-bg"><div id="bar-fill"></div></div>
+  </div>
   <div id="times">
     <span id="cur">0:00</span>
     <span id="tot">0:00</span>
