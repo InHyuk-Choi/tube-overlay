@@ -82,9 +82,9 @@ body {{
 /* 스케일 래퍼 */
 #wrapper {{
   position: fixed;
-  bottom: 24px;
-  left: 24px;
-  transform-origin: bottom left;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
 }}
 
 /* 메인 카드 */
@@ -373,8 +373,8 @@ function tick() {{
 }}
 
 function rescale() {{
-  const scale = Math.min(1, (window.innerWidth - 48) / 400);
-  document.getElementById('wrapper').style.transform = `scale(${{scale}})`;
+  const scale = window.innerWidth / 400;
+  document.getElementById('wrapper').style.transform = `translate(-50%, -50%) scale(${{scale}})`;
 }}
 window.addEventListener('resize', rescale);
 rescale();
