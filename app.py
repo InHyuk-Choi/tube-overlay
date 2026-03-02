@@ -373,7 +373,7 @@ function tick() {{
 }}
 
 function rescale() {{
-  const scale = window.innerWidth / 400;
+  const scale = (window.innerWidth - 48) / 400;
   document.getElementById('wrapper').style.transform = `translate(-50%, -50%) scale(${{scale}})`;
 }}
 window.addEventListener('resize', rescale);
